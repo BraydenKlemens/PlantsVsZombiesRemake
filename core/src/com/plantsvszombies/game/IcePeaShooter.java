@@ -14,7 +14,7 @@ public class IcePeaShooter extends Plants {
 	public boolean updateTime() {
 		//Abstract method
 		long timeA = System.currentTimeMillis() - getTime();
-		if (timeA > 1800) {
+		if (timeA > 2000) {
 			startTime();
 			return true;
 		} else {

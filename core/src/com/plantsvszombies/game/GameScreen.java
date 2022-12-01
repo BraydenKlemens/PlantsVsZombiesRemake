@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -42,6 +43,8 @@ public class GameScreen implements Screen, InputProcessor {
 	// Display
 	private final BitmapFont sunTotal = new BitmapFont();
 	private final BitmapFont waveTotal = new BitmapFont();
+
+	private final BitmapFont ZombieTotal = new BitmapFont();
 
 	public GameScreen(GameLauncher game) {
 		this.game = game;
@@ -119,7 +122,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 	public void produceSuns() {
 		// Suns spawn from top of screen
-		if (timeA > 10000) {
+		if (timeA > 12000) {
 			timeA = 0;
 			Sun sun = new Sun(new Texture("suns.png"), true, (float) (Math.random() * 700), 450);
 			suns.add(sun);
@@ -177,6 +180,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 		waveTotal.getData().setScale(2, 2);
 		sunTotal.getData().setScale(2, 2);
+		ZombieTotal.getData().setScale(2, 2);
 	}
 
 	public void draw() {
@@ -212,13 +216,14 @@ public class GameScreen implements Screen, InputProcessor {
 
 		sunTotal.draw(game.batch, "Suns: " + sunCount, 10, 130);
 		waveTotal.draw(game.batch, "Wave: " + wave, 400, 470);
+		ZombieTotal.draw(game.batch, "Zombies: " + zombies.size(), 10, 100);
 
 		game.batch.end();
 	}
 
 	public void startNewWave() {
 		// adds 10 more zombies each wave
-		for (int i = 0; i < 10 * wave; i++) {
+		for (int i = 0; i < 15 * wave; i++) {
 			Tile tile = grid.get((int) (Math.random() * grid.size()));
 			IShootable zombie1 = new Zombie(new Texture("zombie.png"),
 					1000 + (float) Math.random() * 1500, tile.getY(), tile);
@@ -272,7 +277,7 @@ public class GameScreen implements Screen, InputProcessor {
 					Rectangle bulrect = bullets.get(j).getBoundingRectangle();
 					if (bulrect.overlaps(zomrect)) {
 						zombies.get(i).setSpeed(-0.03f);
-						zombies.get(i).damage(25);
+						zombies.get(i).damage(15);
 						bullets.remove(j);
 						if (zombies.get(i).getHealth() <= 0) {
 							zombies.remove(i);
@@ -281,7 +286,7 @@ public class GameScreen implements Screen, InputProcessor {
 				} else {
 					Rectangle rect = bullets.get(j).getBoundingRectangle();
 					if (rect.overlaps(zomrect)) {
-						zombies.get(i).damage(25);
+						zombies.get(i).damage(15);
 						bullets.remove(j);
 						if (zombies.get(i).getHealth() <= 0) {
 							zombies.remove(i);

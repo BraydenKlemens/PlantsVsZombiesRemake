@@ -16,7 +16,7 @@ public class PeaShooter extends Plants {
 	public boolean updateTime() {
 		//updates time for each singular plant
 		long timeA = System.currentTimeMillis() - getTime();
-		if (timeA > 1800) {
+		if (timeA > 2000) {
 			startTime();
 			return true;
 		} else {
